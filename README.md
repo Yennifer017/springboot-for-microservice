@@ -79,6 +79,16 @@ usuario logueado usa el siguiente comando:
 SecurityContextHolder.getContext().getAuthentication().getName();
 ```
 
+### Obtener id del usuario del jwt
+```java
+Integer userId =
+        ((CustomUserDetails)
+                SecurityContextHolder.getContext()
+                        .getAuthentication()
+                        .getPrincipal())
+                .getId();
+```
+
 ## Configuracion de archivo de entorno .env
 
 Ejemplo de archivo de entorno.<br>

@@ -148,6 +148,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
         String username = jwtTokenInspector.extractUsername(jwt);
         String userType = jwtTokenInspector.extractUserType(jwt);
+        Integer userId = jwtTokenInspector.extractUserId(jwt);
 
         // Validar si el token ya ha sido autenticado
         if (username == null || SecurityContextHolder.getContext().getAuthentication() != null) {
@@ -155,7 +156,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
         }
 
         // creamos el usuario Spring para que sea cargado en el contexto
-        User user = new User(username, "", List.of(new SimpleGrantedAuthority("ROLE_" + userType)));
+        UserDetails user = new CustomUserDetails(userId,username, List.of(new SimpleGrantedAuthority("ROLE_" + userType)));
 
         if (jwtTokenInspector.isTokenValid(jwt)) {
             log.info("Usuario autenticado exitosamente: {}", username);

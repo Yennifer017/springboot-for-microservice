@@ -65,6 +65,23 @@ public class JwtTokenInspector {
 
     }
 
+    public Integer extractUserId(String token) throws InvalidTokenException {
+
+        try {
+
+            Integer userId = extractAllClaims(token)
+                    .get(JwtGeneratorService.CLAIM_USER_ID, Integer.class);
+
+            if (userId == null) {
+                throw new JwtNoUserIdException();
+            }
+
+            return userId;
+
+        } catch (RequiredTypeException ex) {
+            throw new JwtClaimTypeMismatchException();
+        }
+    }
     /**
      * Verifica si expiracion del token es antes que la fecha actual
      *
